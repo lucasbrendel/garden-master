@@ -529,6 +529,7 @@ name = "green-thumb"
 version = "0.1.0"
 dependencies = [
  "azul 0.1.0 (git+https://github.com/maps4print/azul)",
+ "chrono 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "clap 2.32.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 

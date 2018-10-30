@@ -7,3 +7,4 @@ readme = "README.md"
 [dependencies]
 azul = { git = "https://github.com/maps4print/azul" }
 clap = "2.32.0"
+chrono = "0.4.6"

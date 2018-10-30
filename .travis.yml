@@ -8,6 +8,12 @@ matrix:
   - rust: nightly
   fast_finish: true
 cache: cargo
+branches:
+  only:
+    # Where pull requests from "bors r+" are built
+    - staging
+    # Where pull requests from "bors try" are built
+    - trying
 before_script:
   - rustup component add rustfmt-preview
   - rustup component add clippy-preview

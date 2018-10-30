@@ -449,15 +449,6 @@ dependencies = [
 ]
 
 [[package]]
-name = "garden-master"
-version = "0.1.0"
-dependencies = [
- "azul 0.1.0 (git+https://github.com/maps4print/azul)",
- "chrono 0.4.6 (registry+https://github.com/rust-lang/crates.io-index)",
- "clap 2.32.0 (registry+https://github.com/rust-lang/crates.io-index)",
-]
-
-[[package]]
 name = "gcc"
 version = "0.3.55"
 source = "registry+https://github.com/rust-lang/crates.io-index"
@@ -531,6 +522,14 @@ dependencies = [
  "winapi 0.3.6 (registry+https://github.com/rust-lang/crates.io-index)",
  "winit 0.16.2 (registry+https://github.com/rust-lang/crates.io-index)",
  "x11-dl 2.18.3 (registry+https://github.com/rust-lang/crates.io-index)",
+]
+
+[[package]]
+name = "green-thumb"
+version = "0.1.0"
+dependencies = [
+ "azul 0.1.0 (git+https://github.com/maps4print/azul)",
+ "clap 2.32.0 (registry+https://github.com/rust-lang/crates.io-index)",
 ]
 
 [[package]]

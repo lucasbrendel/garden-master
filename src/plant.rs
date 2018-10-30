@@ -7,6 +7,8 @@ struct Plant {
     plant_type: PlantType,
 }
 
+#[derive(Debug)]
+#[derive(PartialEq)]
 enum PlantType {
     Annual,
     Perennial,
@@ -29,5 +31,11 @@ mod tests {
     fn display_name() {
         let plant = Plant::new(String::from("Tomato"));
         assert_eq!("Tomato", plant.name);
+    }
+
+    #[test]
+    fn default_plant_type() {
+        let plant = Plant::new(String::from("Potato"));
+        assert_eq!(PlantType::Annual, plant.plant_type);
     }
 }

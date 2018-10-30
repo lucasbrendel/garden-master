@@ -4,19 +4,19 @@
 //! when work is needed to be performed.
 struct Plant {
     name: String,
-    plant_type: PlantType
+    plant_type: PlantType,
 }
 
-enum PlantType{
+enum PlantType {
     Annual,
-    Perennial
+    Perennial,
 }
 
-impl Plant{
-    fn new(name: String)-> Plant {
+impl Plant {
+    fn new(name: String) -> Plant {
         Plant {
             name,
-            plant_type: PlantType::Annual
+            plant_type: PlantType::Annual,
         }
     }
 }

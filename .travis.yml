@@ -24,6 +24,17 @@ script:
 # if you want the build job to fail when encountering warnings and
 # in order to also check tests and none-default crate features
   - cargo clippy --all-targets --all-features
-  - cargo build --verbose --all
+  - |
+    cargo build    --verbose --all &&
+    cargo coverage --verbose &&
+    bash <(curl -s https://codecov.io/bash) -s target/kcov
   - cargo test --verbose --all
   - cargo doc --verbose
+ addons: # required for kcov
+        apt:
+          packages:
+            - libcurl4-openssl-dev
+            - libelf-dev
+            - libdw-dev
+            - binutils-dev
+            - cmake

@@ -17,7 +17,7 @@ script:
   - cargo fmt --all -- --check
 # if you want the build job to fail when encountering warnings and
 # in order to also check tests and none-default crate features
-  - cargo clippy --all-targets --all-features -- -D warnings
+  - cargo clippy --all-targets --all-features
   - cargo build --verbose --all
   - cargo test --verbose --all
   - cargo doc --verbose

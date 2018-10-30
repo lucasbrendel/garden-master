@@ -4,6 +4,21 @@
 //! when work is needed to be performed.
 struct Plant {
     name: String,
+    plant_type: PlantType
+}
+
+enum PlantType{
+    Annual,
+    Perennial
+}
+
+impl Plant{
+    fn new(name: String)-> Plant {
+        Plant {
+            name,
+            plant_type: PlantType::Annual
+        }
+    }
 }
 
 #[cfg(test)]
@@ -12,9 +27,7 @@ mod tests {
 
     #[test]
     fn display_name() {
-        let plant = Plant {
-            name: String::from("Tomato"),
-        };
+        let plant = Plant::new(String::from("Tomato"));
         assert_eq!("Tomato", plant.name);
     }
 }

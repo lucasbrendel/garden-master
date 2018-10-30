@@ -1,6 +1,8 @@
 extern crate clap;
 
-use clap::{App};
+use clap::App;
+
+mod plant;
 
 fn main() {
     let _matches = App::new("Garden Master")

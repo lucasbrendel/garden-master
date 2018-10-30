@@ -7,8 +7,7 @@ struct Plant {
     plant_type: PlantType,
 }
 
-#[derive(Debug)]
-#[derive(PartialEq)]
+#[derive(Debug, PartialEq)]
 enum PlantType {
     Annual,
     Perennial,

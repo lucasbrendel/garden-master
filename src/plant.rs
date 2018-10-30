@@ -58,6 +58,8 @@ mod tests {
     fn display_name() {
         let plant = Plant::new(String::from("Tomato"), 30, 50);
         assert_eq!("Tomato", plant.name);
+        assert_eq!(30, plant.days_to_germinate.num_days());
+        assert_eq!(50, plant.days_to_harvest.num_days());
     }
 
     #[test]

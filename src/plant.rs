@@ -3,7 +3,7 @@
 //! This item should contain the necessary data so that work can be done for the use to alert
 //! when work is needed to be performed.
 
-use chrono::{Duration};
+use chrono::Duration;
 
 /// Standard type to define all things to grow
 struct Plant {
@@ -18,7 +18,7 @@ struct Plant {
     /// Number of days from planting until germination occurs
     days_to_germinate: Duration,
     /// Number of days from planting until harvesting is ready
-    days_to_harvest: Duration
+    days_to_harvest: Duration,
 }
 
 /// Seasonal variety types of plants
@@ -43,9 +43,9 @@ impl Plant {
             name,
             plant_type: PlantType::Annual,
             notes: String::from(""),
-            zones: [0,0,0,0,0,0,0,0,0,0],
+            zones: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             days_to_harvest: Duration::days(harvest),
-            days_to_germinate: Duration::days(germinate)
+            days_to_germinate: Duration::days(germinate),
         }
     }
 }

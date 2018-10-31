@@ -38,10 +38,10 @@ impl Plant {
     /// let plant = Plant::new("Tomato");
     /// assert_eq!("Tomato", plant.name);
     /// ```
-    fn new(name: String, germinate: i64, harvest: i64) -> Self {
+    fn new(name: String, germinate: i64, harvest: i64, season_type: PlantType) -> Self {
         Plant {
             name,
-            plant_type: PlantType::Annual,
+            plant_type: season_type,
             notes: String::from(""),
             zones: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
             days_to_harvest: Duration::days(harvest),
@@ -56,7 +56,7 @@ mod tests {
 
     #[test]
     fn display_name() {
-        let plant = Plant::new(String::from("Tomato"), 30, 50);
+        let plant = Plant::new(String::from("Tomato"), 30, 50, PlantType::Annual);
         assert_eq!("Tomato", plant.name);
         assert_eq!(30, plant.days_to_germinate.num_days());
         assert_eq!(50, plant.days_to_harvest.num_days());
@@ -64,7 +64,7 @@ mod tests {
 
     #[test]
     fn default_plant_type() {
-        let plant = Plant::new(String::from("Potato"), 50, 70);
+        let plant = Plant::new(String::from("Potato"), 50, 70, PlantType::Annual);
         assert_eq!(PlantType::Annual, plant.plant_type);
     }
 }

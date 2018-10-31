@@ -1,0 +1,1 @@
+initSidebarItems({"enum":[["PlantType","Seasonal variety types of plants"]],"struct":[["Plant","Standard type to define all things to grow"]]});

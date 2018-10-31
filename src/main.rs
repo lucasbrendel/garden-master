@@ -4,6 +4,7 @@ extern crate clap;
 use clap::App;
 
 mod plant;
+mod crop;
 
 fn main() {
     let _matches = App::new("Garden Master")

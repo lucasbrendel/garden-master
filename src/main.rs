@@ -3,8 +3,8 @@ extern crate clap;
 
 use clap::App;
 
-mod plant;
 mod crop;
+mod plant;
 
 fn main() {
     let _matches = App::new("Garden Master")

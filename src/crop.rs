@@ -1,18 +1,18 @@
-use chrono::{NaiveDate};
-use plant::{Plant};
+use chrono::NaiveDate;
+use plant::Plant;
 
-struct Crop{
+struct Crop {
     pub num_plants: u32,
     pub date_planted: NaiveDate,
-    pub plant: Plant
+    pub plant: Plant,
 }
 
-impl Crop{
+impl Crop {
     fn new(plant: Plant, num_plants: u32, date_planted: NaiveDate) -> Self {
         Crop {
             plant,
             num_plants,
-            date_planted
+            date_planted,
         }
     }
 
@@ -38,6 +38,9 @@ mod tests {
     fn harvest_date() {
         let plant = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
         let crop = Crop::new(plant, 5, NaiveDate::from_ymd(2018, 5, 6));
-        assert_eq!(NaiveDate::from_ymd(2018, 6, 25), crop.planned_harvest_date());
+        assert_eq!(
+            NaiveDate::from_ymd(2018, 6, 25),
+            crop.planned_harvest_date()
+        );
     }
 }

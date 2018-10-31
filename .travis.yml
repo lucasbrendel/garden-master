@@ -14,6 +14,8 @@ branches:
     - staging
     # Where pull requests from "bors try" are built
     - trying
+    # Build master just for sanity sake
+    - master
 addons:
   apt:
     packages:

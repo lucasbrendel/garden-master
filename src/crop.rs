@@ -1,6 +1,7 @@
 use chrono::NaiveDate;
 use plant::Plant;
 
+/// Tracking the growth and harvest of a specific plant
 struct Crop {
     pub num_plants: u32,
     pub date_planted: NaiveDate,

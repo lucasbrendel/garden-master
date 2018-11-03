@@ -29,20 +29,24 @@ fn main() {
             days_to_maturity INTEGER
             )",
         NO_PARAMS,
-    ).unwrap();
+    )
+    .unwrap();
     conn.execute(
         "INSERT INTO plants (name, days_to_maturity)
             VALUES (?1, ?2)",
         &[&tomato.name as &ToSql, &tomato.days_to_maturity],
-    ).unwrap();
+    )
+    .unwrap();
 
     let mut stmt = conn
         .prepare("SELECT id, name, days_to_maturity FROM plants")
         .unwrap();
     let plants = stmt
-        .query_map(NO_PARAMS, |row| Plant::new(row.get(1), row.get(2), PlantType::Annual)
-        ).unwrap();
-    
+        .query_map(NO_PARAMS, |row| {
+            Plant::new(row.get(1), row.get(2), PlantType::Annual)
+        })
+        .unwrap();
+
     for pl in plants {
         println!("Found plant {:?}", pl.unwrap());
     }

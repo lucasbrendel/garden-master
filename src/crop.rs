@@ -1,4 +1,4 @@
-use chrono::{NaiveDate, Duration};
+use chrono::{Duration, NaiveDate};
 use plant::Plant;
 
 /// Tracking the growth and harvest of a specific plant

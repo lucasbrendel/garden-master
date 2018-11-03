@@ -3,8 +3,6 @@
 //! This item should contain the necessary data so that work can be done for the use to alert
 //! when work is needed to be performed.
 
-
-
 /// Standard type to define all things to grow
 #[derive(Debug)]
 pub struct Plant {

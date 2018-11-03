@@ -64,10 +64,6 @@
 <span id="64">64</span>
 <span id="65">65</span>
 <span id="66">66</span>
-<span id="67">67</span>
-<span id="68">68</span>
-<span id="69">69</span>
-<span id="70">70</span>
 </pre><pre class="rust ">
 <span class="doccomment">//! The design behind the plant module is to act as the main container of data for any</span>
 <span class="doccomment">//! type of plant that could be tracked and maintained in the garden or orchard.</span>
@@ -77,24 +73,22 @@
 <span class="kw">use</span> <span class="ident">chrono</span>::<span class="ident">Duration</span>;
 
 <span class="doccomment">/// Standard type to define all things to grow</span>
-<span class="kw">struct</span> <span class="ident">Plant</span> {
+<span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Plant</span> {
     <span class="doccomment">/// Name of a plant.</span>
-    <span class="ident">name</span>: <span class="ident">String</span>,
+    <span class="kw">pub</span> <span class="ident">name</span>: <span class="ident">String</span>,
     <span class="doccomment">/// Seasonal type of plant</span>
-    <span class="ident">plant_type</span>: <span class="ident">PlantType</span>,
+    <span class="kw">pub</span> <span class="ident">plant_type</span>: <span class="ident">PlantType</span>,
     <span class="doccomment">/// Growing zones defined by USDA that a plant can survive in. This is limited to first 10 zones.</span>
     <span class="ident">zones</span>: [<span class="ident">u8</span>; <span class="number">10</span>],
     <span class="doccomment">/// Any description or textual things to track about the plant.</span>
     <span class="ident">notes</span>: <span class="ident">String</span>,
     <span class="doccomment">/// Number of days from planting until germination occurs</span>
-    <span class="ident">days_to_germinate</span>: <span class="ident">Duration</span>,
-    <span class="doccomment">/// Number of days from planting until harvesting is ready</span>
-    <span class="ident">days_to_harvest</span>: <span class="ident">Duration</span>,
+    <span class="kw">pub</span> <span class="ident">days_to_maturity</span>: <span class="ident">Duration</span>,
 }
 
 <span class="doccomment">/// Seasonal variety types of plants</span>
 <span class="attribute">#[<span class="ident">derive</span>(<span class="ident">Debug</span>, <span class="ident">PartialEq</span>)]</span>
-<span class="kw">enum</span> <span class="ident">PlantType</span> {
+<span class="kw">pub</span> <span class="kw">enum</span> <span class="ident">PlantType</span> {
     <span class="doccomment">/// Plant has one growing season and needs to be replanted every year</span>
     <span class="ident">Annual</span>,
     <span class="doccomment">/// Plant survives over multiple growing seasons.</span>
@@ -109,14 +103,13 @@
     <span class="doccomment">/// let plant = Plant::new(&quot;Tomato&quot;);</span>
     <span class="doccomment">/// assert_eq!(&quot;Tomato&quot;, plant.name);</span>
     <span class="doccomment">/// ```</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">germinate</span>: <span class="ident">i64</span>, <span class="ident">harvest</span>: <span class="ident">i64</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">pub</span> <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">name</span>: <span class="ident">String</span>, <span class="ident">maturity</span>: <span class="ident">i64</span>, <span class="ident">season_type</span>: <span class="ident">PlantType</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
         <span class="ident">Plant</span> {
             <span class="ident">name</span>,
-            <span class="ident">plant_type</span>: <span class="ident">PlantType</span>::<span class="ident">Annual</span>,
+            <span class="ident">plant_type</span>: <span class="ident">season_type</span>,
             <span class="ident">notes</span>: <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;&quot;</span>),
             <span class="ident">zones</span>: [<span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>, <span class="number">0</span>],
-            <span class="ident">days_to_harvest</span>: <span class="ident">Duration</span>::<span class="ident">days</span>(<span class="ident">harvest</span>),
-            <span class="ident">days_to_germinate</span>: <span class="ident">Duration</span>::<span class="ident">days</span>(<span class="ident">germinate</span>),
+            <span class="ident">days_to_maturity</span>: <span class="ident">Duration</span>::<span class="ident">days</span>(<span class="ident">maturity</span>),
         }
     }
 }
@@ -127,15 +120,14 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">display_name</span>() {
-        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Tomato&quot;</span>), <span class="number">30</span>, <span class="number">50</span>);
+        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Tomato&quot;</span>), <span class="number">30</span>, <span class="ident">PlantType</span>::<span class="ident">Annual</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="string">&quot;Tomato&quot;</span>, <span class="ident">plant</span>.<span class="ident">name</span>);
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">30</span>, <span class="ident">plant</span>.<span class="ident">days_to_germinate</span>.<span class="ident">num_days</span>());
-        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">50</span>, <span class="ident">plant</span>.<span class="ident">days_to_harvest</span>.<span class="ident">num_days</span>());
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">30</span>, <span class="ident">plant</span>.<span class="ident">days_to_maturity</span>.<span class="ident">num_days</span>());
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">default_plant_type</span>() {
-        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Potato&quot;</span>), <span class="number">50</span>, <span class="number">70</span>);
+        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Potato&quot;</span>), <span class="number">50</span>, <span class="ident">PlantType</span>::<span class="ident">Annual</span>);
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">PlantType</span>::<span class="ident">Annual</span>, <span class="ident">plant</span>.<span class="ident">plant_type</span>);
     }
 }

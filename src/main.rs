@@ -3,6 +3,7 @@ extern crate clap;
 
 use clap::App;
 
+mod crop;
 mod plant;
 
 fn main() {

@@ -6,24 +6,22 @@
 use chrono::Duration;
 
 /// Standard type to define all things to grow
-struct Plant {
+pub struct Plant {
     /// Name of a plant.
-    name: String,
+    pub name: String,
     /// Seasonal type of plant
-    plant_type: PlantType,
+    pub plant_type: PlantType,
     /// Growing zones defined by USDA that a plant can survive in. This is limited to first 10 zones.
     zones: [u8; 10],
     /// Any description or textual things to track about the plant.
     notes: String,
     /// Number of days from planting until germination occurs
-    days_to_germinate: Duration,
-    /// Number of days from planting until harvesting is ready
-    days_to_harvest: Duration,
+    pub days_to_maturity: Duration,
 }
 
 /// Seasonal variety types of plants
 #[derive(Debug, PartialEq)]
-enum PlantType {
+pub enum PlantType {
     /// Plant has one growing season and needs to be replanted every year
     Annual,
     /// Plant survives over multiple growing seasons.
@@ -38,14 +36,13 @@ impl Plant {
     /// let plant = Plant::new("Tomato");
     /// assert_eq!("Tomato", plant.name);
     /// ```
-    fn new(name: String, germinate: i64, harvest: i64) -> Self {
+    pub fn new(name: String, maturity: i64, season_type: PlantType) -> Self {
         Plant {
             name,
-            plant_type: PlantType::Annual,
+            plant_type: season_type,
             notes: String::from(""),
             zones: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            days_to_harvest: Duration::days(harvest),
-            days_to_germinate: Duration::days(germinate),
+            days_to_maturity: Duration::days(maturity),
         }
     }
 }
@@ -56,15 +53,14 @@ mod tests {
 
     #[test]
     fn display_name() {
-        let plant = Plant::new(String::from("Tomato"), 30, 50);
+        let plant = Plant::new(String::from("Tomato"), 30, PlantType::Annual);
         assert_eq!("Tomato", plant.name);
-        assert_eq!(30, plant.days_to_germinate.num_days());
-        assert_eq!(50, plant.days_to_harvest.num_days());
+        assert_eq!(30, plant.days_to_maturity.num_days());
     }
 
     #[test]
     fn default_plant_type() {
-        let plant = Plant::new(String::from("Potato"), 50, 70);
+        let plant = Plant::new(String::from("Potato"), 50, PlantType::Annual);
         assert_eq!(PlantType::Annual, plant.plant_type);
     }
 }

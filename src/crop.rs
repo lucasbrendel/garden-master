@@ -2,13 +2,17 @@ use chrono::NaiveDate;
 use plant::Plant;
 
 /// Tracking the growth and harvest of a specific plant
-struct Crop {
+pub struct Crop {
+    /// Number of plants sown
     pub num_plants: u32,
+    /// The date that the plants were planted
     pub date_planted: NaiveDate,
+    /// The type of plant sown
     pub plant: Plant,
 }
 
 impl Crop {
+    /// Create a new crop instance
     fn new(plant: Plant, num_plants: u32, date_planted: NaiveDate) -> Self {
         Crop {
             plant,
@@ -17,6 +21,7 @@ impl Crop {
         }
     }
 
+    /// Provides the ideal harvest date based on planting date and time to maturity
     fn planned_harvest_date(&self) -> NaiveDate {
         self.date_planted + self.plant.days_to_maturity
     }

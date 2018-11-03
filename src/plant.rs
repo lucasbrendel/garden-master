@@ -3,9 +3,10 @@
 //! This item should contain the necessary data so that work can be done for the use to alert
 //! when work is needed to be performed.
 
-use chrono::Duration;
+
 
 /// Standard type to define all things to grow
+#[derive(Debug)]
 pub struct Plant {
     /// Name of a plant.
     pub name: String,
@@ -16,7 +17,7 @@ pub struct Plant {
     /// Any description or textual things to track about the plant.
     notes: String,
     /// Number of days from planting until germination occurs
-    pub days_to_maturity: Duration,
+    pub days_to_maturity: i64,
 }
 
 /// Seasonal variety types of plants
@@ -42,7 +43,7 @@ impl Plant {
             plant_type: season_type,
             notes: String::from(""),
             zones: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
-            days_to_maturity: Duration::days(maturity),
+            days_to_maturity: maturity,
         }
     }
 }

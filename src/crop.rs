@@ -1,4 +1,4 @@
-use chrono::NaiveDate;
+use chrono::{NaiveDate, Duration};
 use plant::Plant;
 
 /// Tracking the growth and harvest of a specific plant
@@ -23,7 +23,7 @@ impl Crop {
 
     /// Provides the ideal harvest date based on planting date and time to maturity
     fn planned_harvest_date(&self) -> NaiveDate {
-        self.date_planted + self.plant.days_to_maturity
+        self.date_planted + Duration::days(self.plant.days_to_maturity)
     }
 }
 

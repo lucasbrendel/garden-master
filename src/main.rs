@@ -20,7 +20,7 @@ fn main() {
 
     let tomato = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
 
-    let conn = Connection::open_in_memory().unwrap();
+    let conn = Connection::open("./data/plants.db").unwrap();
 
     conn.execute(
         "CREATE TABLE plants (

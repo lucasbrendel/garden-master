@@ -28,10 +28,10 @@ fn main() {
         .about("Help keep track of all the things that need to happen in a garden or orchard")
         .get_matches();
 
-//     let tomato = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
-//     let mgr = datamgr::DataMgr::new();
-//     mgr.save_plants(tomato);
-//     for pl in mgr.get_plants() {
-//         info!("Found plant {:?}", pl);
-//     }
+    //     let tomato = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
+    //     let mgr = datamgr::DataMgr::new();
+    //     mgr.save_plants(tomato);
+    //     for pl in mgr.get_plants() {
+    //         info!("Found plant {:?}", pl);
+    //     }
 }

@@ -17,6 +17,5 @@ pub fn logging_init() {
             Config::default(),
             File::create("green-thumb.log").unwrap(),
         ),
-    ])
-    .unwrap();
+    ]).unwrap();
 }

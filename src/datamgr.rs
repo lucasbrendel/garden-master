@@ -32,8 +32,7 @@ impl DataMgr {
             plant_type TEXT NOT NULL
             )",
                 NO_PARAMS,
-            )
-            .unwrap();
+            ).unwrap();
         data
     }
 
@@ -49,8 +48,7 @@ impl DataMgr {
                     &plant.zones,
                     &plant.plant_type,
                 ],
-            )
-            .unwrap();
+            ).unwrap();
     }
 
     pub fn get_plants(&self) -> Vec<Plant> {
@@ -62,8 +60,7 @@ impl DataMgr {
         let map_plants = stmt
             .query_map(NO_PARAMS, |row| {
                 Plant::new(row.get(1), row.get(2), PlantType::Annual)
-            })
-            .unwrap();
+            }).unwrap();
         for plant in map_plants {
             plants.push(plant.unwrap());
         }

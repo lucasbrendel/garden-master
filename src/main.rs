@@ -1,15 +1,17 @@
 extern crate chrono;
 extern crate clap;
 extern crate rusqlite;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_rusqlite;
 
 use clap::App;
 
 mod crop;
+mod datamgr;
 mod plant;
 
 use plant::{Plant, PlantType};
-use rusqlite::types::ToSql;
-use rusqlite::{Connection, NO_PARAMS};
 
 fn main() {
     let _matches = App::new("Garden Master")
@@ -20,34 +22,11 @@ fn main() {
 
     let tomato = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
 
-    let conn = Connection::open("./data/plants.db").unwrap();
+    let mgr = datamgr::DataMgr::new();
 
-    conn.execute(
-        "CREATE TABLE plants (
-            id INTEGER PRIMARY KEY,
-            name TEXT NOT NULL,
-            days_to_maturity INTEGER
-            )",
-        NO_PARAMS,
-    )
-    .unwrap();
-    conn.execute(
-        "INSERT INTO plants (name, days_to_maturity)
-            VALUES (?1, ?2)",
-        &[&tomato.name as &ToSql, &tomato.days_to_maturity],
-    )
-    .unwrap();
+    mgr.save_plants(tomato);
 
-    let mut stmt = conn
-        .prepare("SELECT id, name, days_to_maturity FROM plants")
-        .unwrap();
-    let plants = stmt
-        .query_map(NO_PARAMS, |row| {
-            Plant::new(row.get(1), row.get(2), PlantType::Annual)
-        })
-        .unwrap();
-
-    for pl in plants {
-        println!("Found plant {:?}", pl.unwrap());
+    for pl in mgr.get_plants() {
+        println!("Found plant {:?}", pl);
     }
 }

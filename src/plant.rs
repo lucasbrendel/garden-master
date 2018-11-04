@@ -11,15 +11,15 @@ pub struct Plant {
     /// Seasonal type of plant
     pub plant_type: PlantType,
     /// Growing zones defined by USDA that a plant can survive in. This is limited to first 10 zones.
-    zones: [u8; 10],
+    zones: Vec<u8>,
     /// Any description or textual things to track about the plant.
-    notes: String,
+    pub notes: String,
     /// Number of days from planting until germination occurs
     pub days_to_maturity: i64,
 }
 
 /// Seasonal variety types of plants
-#[derive(Debug, PartialEq)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
 pub enum PlantType {
     /// Plant has one growing season and needs to be replanted every year
     Annual,
@@ -40,7 +40,7 @@ impl Plant {
             name,
             plant_type: season_type,
             notes: String::from(""),
-            zones: [0, 0, 0, 0, 0, 0, 0, 0, 0, 0],
+            zones: Vec::new(),
             days_to_maturity: maturity,
         }
     }
@@ -54,7 +54,7 @@ mod tests {
     fn display_name() {
         let plant = Plant::new(String::from("Tomato"), 30, PlantType::Annual);
         assert_eq!("Tomato", plant.name);
-        assert_eq!(30, plant.days_to_maturity.num_days());
+        assert_eq!(30, plant.days_to_maturity);
     }
 
     #[test]

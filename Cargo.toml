@@ -1,11 +1,13 @@
 [package]
-name = "green-thumb"
-version = "0.1.0"
 authors = ["Lucas Brendel <lucasbrendel@gmail.com>"]
+name = "green-thumb"
 readme = "README.md"
+version = "0.1.0"
 
 [dependencies]
-# azul = { git = "https://github.com/maps4print/azul" }
-clap = "2.32.0"
 chrono = "0.4.6"
+clap = "2.32.0"
 rusqlite = "0.15.0"
+serde = "1.0.80"
+serde_derive = "1.0.80"
+serde_rusqlite = "0.15.0"

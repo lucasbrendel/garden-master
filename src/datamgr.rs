@@ -1,6 +1,6 @@
 use plant::{Plant, PlantType};
 use rusqlite::types::{ToSql, ToSqlOutput};
-use rusqlite::{Connection, NO_PARAMS, Result};
+use rusqlite::{Connection, Result, NO_PARAMS};
 // use serde_rusqlite::*;
 
 use std::vec::Vec;
@@ -47,7 +47,7 @@ impl DataMgr {
                     &plant.days_to_maturity,
                     &plant.notes,
                     &plant.zones,
-                    &plant.plant_type
+                    &plant.plant_type,
                 ],
             )
             .unwrap();

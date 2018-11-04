@@ -11,7 +11,7 @@ pub struct Plant {
     /// Seasonal type of plant
     pub plant_type: PlantType,
     /// Growing zones defined by USDA that a plant can survive in. This is limited to first 10 zones.
-    zones: Vec<u8>,
+    pub zones: Vec<u8>,
     /// Any description or textual things to track about the plant.
     pub notes: String,
     /// Number of days from planting until germination occurs

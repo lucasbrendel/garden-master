@@ -26,7 +26,8 @@ impl DataMgr {
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             name TEXT NOT NULL,
             days_to_maturity INTEGER,
-            notes TEXT
+            notes TEXT,
+            zones BLOB
             )",
                 NO_PARAMS,
             )
@@ -37,9 +38,14 @@ impl DataMgr {
     pub fn save_plants(&self, plant: Plant) {
         self.conn
             .execute(
-                "INSERT INTO plants (name, days_to_maturity, notes)
-            VALUES (?1, ?2, ?3)",
-                &[&plant.name as &ToSql, &plant.days_to_maturity, &plant.notes],
+                "INSERT INTO plants (name, days_to_maturity, notes, zones)
+            VALUES (?1, ?2, ?3, ?4)",
+                &[
+                    &plant.name as &ToSql,
+                    &plant.days_to_maturity,
+                    &plant.notes,
+                    &plant.zones,
+                ],
             )
             .unwrap();
     }

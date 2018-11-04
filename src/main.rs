@@ -7,16 +7,21 @@ extern crate serde_rusqlite;
 extern crate strum;
 #[macro_use]
 extern crate strum_macros;
-
-use clap::App;
+#[macro_use]
+extern crate log;
+extern crate simplelog;
 
 mod crop;
 mod datamgr;
 mod plant;
+mod logging;
 
+use clap::App;
 use plant::{Plant, PlantType};
+use logging::logging_init;
 
 fn main() {
+    logging_init();
     let _matches = App::new("Garden Master")
         .version("0.1.0")
         .author("Lucas Brendel")
@@ -30,6 +35,6 @@ fn main() {
     mgr.save_plants(tomato);
 
     for pl in mgr.get_plants() {
-        println!("Found plant {:?}", pl);
+        info!("Found plant {:?}", pl);
     }
 }

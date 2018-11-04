@@ -13,12 +13,12 @@ extern crate simplelog;
 
 mod crop;
 mod datamgr;
-mod plant;
 mod logging;
+mod plant;
 
 use clap::App;
-use plant::{Plant, PlantType};
 use logging::logging_init;
+use plant::{Plant, PlantType};
 
 fn main() {
     logging_init();

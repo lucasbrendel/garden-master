@@ -4,6 +4,9 @@ extern crate rusqlite;
 #[macro_use]
 extern crate serde_derive;
 extern crate serde_rusqlite;
+extern crate strum;
+#[macro_use]
+extern crate strum_macros;
 
 use clap::App;
 

@@ -1,7 +1,7 @@
 use plant::{Plant, PlantType};
-use rusqlite::types::ToSql;
-use rusqlite::{Connection, NO_PARAMS};
-use serde_rusqlite::*;
+use rusqlite::types::{ToSql, ToSqlOutput};
+use rusqlite::{Connection, NO_PARAMS, Result};
+// use serde_rusqlite::*;
 
 use std::vec::Vec;
 
@@ -9,11 +9,12 @@ pub struct DataMgr {
     pub conn: Connection,
 }
 
-// impl ToSql for PlantType {
-//     fn to_sql(&self) -> Result<ToSqlOutput> {
-//         Ok(ToSqlOutput::from(self))
-//     }
-// }
+impl ToSql for PlantType {
+    fn to_sql(&self) -> Result<ToSqlOutput> {
+        let ty = self.to_string();
+        Ok(ToSqlOutput::from(ty))
+    }
+}
 
 impl DataMgr {
     pub fn new() -> Self {
@@ -27,7 +28,8 @@ impl DataMgr {
             name TEXT NOT NULL,
             days_to_maturity INTEGER,
             notes TEXT,
-            zones BLOB
+            zones BLOB,
+            plant_type TEXT NOT NULL
             )",
                 NO_PARAMS,
             )
@@ -38,13 +40,14 @@ impl DataMgr {
     pub fn save_plants(&self, plant: Plant) {
         self.conn
             .execute(
-                "INSERT INTO plants (name, days_to_maturity, notes, zones)
-            VALUES (?1, ?2, ?3, ?4)",
+                "INSERT INTO plants (name, days_to_maturity, notes, zones, plant_type)
+            VALUES (?1, ?2, ?3, ?4, ?5)",
                 &[
                     &plant.name as &ToSql,
                     &plant.days_to_maturity,
                     &plant.notes,
                     &plant.zones,
+                    &plant.plant_type
                 ],
             )
             .unwrap();

@@ -3,6 +3,8 @@
 //! This item should contain the necessary data so that work can be done for the use to alert
 //! when work is needed to be performed.
 
+use strum::AsStaticRef;
+
 /// Standard type to define all things to grow
 #[derive(Debug)]
 pub struct Plant {
@@ -19,7 +21,7 @@ pub struct Plant {
 }
 
 /// Seasonal variety types of plants
-#[derive(Debug, PartialEq, Serialize, Deserialize, Clone)]
+#[derive(Debug, PartialEq, Serialize, Deserialize, Display, EnumString)]
 pub enum PlantType {
     /// Plant has one growing season and needs to be replanted every year
     Annual,

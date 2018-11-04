@@ -1,7 +1,7 @@
+use plant::{Plant, PlantType};
 use rusqlite::types::ToSql;
 use rusqlite::{Connection, NO_PARAMS};
 use serde_rusqlite::*;
-use plant::{Plant, PlantType};
 
 use std::vec::Vec;
 
@@ -29,7 +29,8 @@ impl DataMgr {
             notes TEXT
             )",
                 NO_PARAMS,
-            ).unwrap();
+            )
+            .unwrap();
         data
     }
 

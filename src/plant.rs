@@ -79,6 +79,7 @@ impl Plant {
         let mut stmt = conn
             .prepare("SELECT id, name, days_to_maturity, zones, notes, plant_type FROM plants")
             .unwrap();
+        info!("Get Plants by ID: {:?}", stmt);
         let map_plants = stmt
             .query_map(NO_PARAMS, |row| {
                 Plant {
@@ -92,13 +93,15 @@ impl Plant {
                 // Plant::new(row.get(1), row.get(2), PlantType::Annual)
             }).unwrap();
         for plant in map_plants {
+            info!("Accessing {:?}", plant);
             plants.push(plant.unwrap());
         }
         plants
     }
 
     pub fn get_plant_by_id(conn: &Connection, id: i64) -> Result<Plant> {
-        let mut stmt = try!(conn.prepare("SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :id LIMIT 1"));
+        let mut stmt = try!(conn.prepare("SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :id"));
+        info!("Get Plant Statement {:?}", stmt);
         let plant = stmt.query_map(NO_PARAMS, |row| {
             Plant{
                 id,
@@ -117,19 +120,22 @@ impl Plant {
 mod tests {
     use super::*;
     use datamgr;
-
+    
     #[test]
     fn create_plant() {
         let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test.db"));
         let plant = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
         assert_eq!("Tomato", plant.name);
+        assert_eq!(45, plant.days_to_maturity);
+        assert_eq!(PlantType::Annual, plant.plant_type);
     }
-    // #[test]
-    // fn display_name() {
-    //     let plant = Plant::new(String::from("Tomato"), 30, PlantType::Annual);
-    //     assert_eq!("Tomato", plant.name);
-    //     assert_eq!(30, plant.days_to_maturity);
-    // }
+
+    #[test]
+    fn get_plant_by_id() {
+        let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test.db"));
+        let plant = Plant::get_plant_by_id(&mgr.conn, 2);
+        println!("{:?}", plant);
+    }
 
     // #[test]
     // fn default_plant_type() {

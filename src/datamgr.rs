@@ -1,9 +1,4 @@
-use plant::{Plant, PlantType};
-use rusqlite::types::{ToSql, ToSqlOutput};
-use rusqlite::{Connection, Result, NO_PARAMS};
-// use serde_rusqlite::*;
-
-use std::vec::Vec;
+use rusqlite::{Connection, NO_PARAMS};
 
 pub struct DataMgr {
     pub conn: Connection,

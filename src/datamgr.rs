@@ -4,8 +4,6 @@ pub struct DataMgr {
     pub conn: Connection,
 }
 
-
-
 impl DataMgr {
     pub fn new(db: String) -> Self {
         let data = DataMgr {

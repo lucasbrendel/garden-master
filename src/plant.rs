@@ -3,10 +3,10 @@
 //! This item should contain the necessary data so that work can be done for the use to alert
 //! when work is needed to be performed.
 
-use strum::AsStaticRef;
-use std::str::FromStr;
-use rusqlite::types::{ToSql, ToSqlOutput, FromSql, FromSqlResult, ValueRef, FromSqlError};
+use rusqlite::types::{FromSql, FromSqlError, FromSqlResult, ToSql, ToSqlOutput, ValueRef};
 use rusqlite::{Connection, Result, NO_PARAMS};
+use std::str::FromStr;
+use strum::AsStaticRef;
 
 /// Standard type to define all things to grow
 #[derive(Debug)]
@@ -45,25 +45,25 @@ impl FromSql for PlantType {
         match PlantType::from_str(value.as_str().unwrap()).unwrap() {
             PlantType::Annual => Ok(PlantType::Annual),
             PlantType::Perennial => Ok(PlantType::Perennial),
-            _ => Err(FromSqlError::InvalidType)
+            _ => Err(FromSqlError::InvalidType),
         }
     }
 }
 
 impl Plant {
     /// Create a new plant type
-    pub fn new(conn: &Connection, name: String, days_to_maturity: i64, plant_type: PlantType) -> Self {
-        conn
-            .execute(
-                "INSERT INTO plants (name, days_to_maturity, plant_type)
+    pub fn new(
+        conn: &Connection,
+        name: String,
+        days_to_maturity: i64,
+        plant_type: PlantType,
+    ) -> Self {
+        conn.execute(
+            "INSERT INTO plants (name, days_to_maturity, plant_type)
             VALUES (?1, ?2, ?3)",
-                &[
-                    &name as &ToSql,
-                    &days_to_maturity,
-                    &plant_type,
-                ],
-            ).unwrap();
-        
+            &[&name as &ToSql, &days_to_maturity, &plant_type],
+        ).unwrap();
+
         Plant {
             id: conn.last_insert_rowid(),
             name,
@@ -88,7 +88,7 @@ impl Plant {
                     days_to_maturity: row.get(2),
                     zones: row.get(3),
                     notes: row.get(4),
-                    plant_type: row.get(5)
+                    plant_type: row.get(5),
                 }
                 // Plant::new(row.get(1), row.get(2), PlantType::Annual)
             }).unwrap();
@@ -100,18 +100,19 @@ impl Plant {
     }
 
     pub fn get_plant_by_id(conn: &Connection, id: i64) -> Result<Plant> {
-        let mut stmt = try!(conn.prepare("SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :id"));
+        let mut stmt = try!(conn.prepare(
+            "SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :id"
+        ));
         info!("Get Plant Statement {:?}", stmt);
-        let plant = stmt.query_map(NO_PARAMS, |row| {
-            Plant{
+        let plant = stmt
+            .query_map(NO_PARAMS, |row| Plant {
                 id,
-                name: row.get(0), 
+                name: row.get(0),
                 days_to_maturity: row.get(1),
                 zones: row.get(2),
                 notes: row.get(3),
-                plant_type: row.get(4)
-            }
-        }).unwrap();
+                plant_type: row.get(4),
+            }).unwrap();
         Ok(plant.last().unwrap().unwrap())
     }
 }
@@ -120,7 +121,7 @@ impl Plant {
 mod tests {
     use super::*;
     use datamgr;
-    
+
     #[test]
     fn create_plant() {
         let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test.db"));

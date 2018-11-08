@@ -29,11 +29,11 @@ fn main() {
         .get_matches();
 
     //     let tomato = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
-        let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
-        let plant = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
-        for pl in Plant::get_plants(&mgr.conn){
-            info!("{:?}", pl);
-        }
+    let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
+    let plant = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
+    for pl in Plant::get_plants(&mgr.conn) {
+        info!("{:?}", pl);
+    }
     //     mgr.save_plants(tomato);
     //     for pl in mgr.get_plants() {
     //         info!("Found plant {:?}", pl);

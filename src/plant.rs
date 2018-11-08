@@ -116,7 +116,14 @@ impl Plant {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use datamgr;
 
+    #[test]
+    fn create_plant() {
+        let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test.db"));
+        let plant = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
+        assert_eq!("Tomato", plant.name);
+    }
     // #[test]
     // fn display_name() {
     //     let plant = Plant::new(String::from("Tomato"), 30, PlantType::Annual);

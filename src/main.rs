@@ -21,7 +21,7 @@ use logging::logging_init;
 use plant::{Plant, PlantType};
 
 fn main() {
-    // logging_init();
+    logging_init();
     let _matches = App::new("Garden Master")
         .version("0.1.0")
         .author("Lucas Brendel")

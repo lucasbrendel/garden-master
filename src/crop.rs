@@ -52,21 +52,18 @@ mod tests {
         let plant = Plant::new(&mgr.conn, String::from("Bean"), 75, PlantType::Annual);
         let crop = Crop::new(&mgr.conn, plant.id, 5, NaiveDate::from_ymd(2018, 5, 6));
         assert_eq!(5, crop.num_plants);
+        assert_eq!(NaiveDate::from_ymd(2018, 6, 25), crop.date_planted);
+        assert_eq!(plant.id, crop.plant_id);
     }
-    // #[test]
-    // fn new_crop() {
-    //     let plant = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
-    //     let crop = Crop::new(plant, 5, NaiveDate::from_ymd(2018, 5, 6));
-    //     assert_eq!(5, crop.num_plants);
-    // }
 
-    // #[test]
-    // fn harvest_date() {
-    //     let plant = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
-    //     let crop = Crop::new(plant, 5, NaiveDate::from_ymd(2018, 5, 6));
-    //     assert_eq!(
-    //         NaiveDate::from_ymd(2018, 6, 25),
-    //         crop.planned_harvest_date()
-    //     );
-    // }
+    #[test]
+    fn harvest_date() {
+        let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-harvest_date.db"));
+        let plant = Plant::new(&mgr.conn, String::from("Bean"), 75, PlantType::Annual);
+        let crop = Crop::new(&mgr.conn, plant.id, 5, NaiveDate::from_ymd(2018, 5, 6));
+        assert_eq!(
+            NaiveDate::from_ymd(2018, 7, 20),
+            crop.planned_harvest_date(&mgr.conn)
+        );
+    }
 }

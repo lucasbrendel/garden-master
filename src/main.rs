@@ -17,8 +17,8 @@ mod logging;
 mod db;
 
 use clap::App;
-use logging::logging_init;
 use db::datamgr;
+use logging::logging_init;
 
 fn main() {
     logging_init();

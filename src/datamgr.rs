@@ -26,8 +26,8 @@ impl DataMgr {
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
                 num_plants INTEGER NOT NULL,
                 date_planted TEXT NOT NULL,
-                plant_id INTEGER NOT NULL
-                FOREIGN KEY(plant_id) REFERENCES plants(id);", NO_PARAMS).unwrap();
+                plant_id INTEGER NOT NULL,
+                FOREIGN KEY(plant_id) REFERENCES plants(id));", NO_PARAMS).unwrap();
         data
     }
 }

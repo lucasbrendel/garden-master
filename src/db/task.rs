@@ -1,8 +1,11 @@
 use rusqlite::{Connection, Result, NO_PARAMS};
 
+/// Standard task for things that need to be completed
 #[derive(Debug)]
 pub struct Task {
+    /// Database unique id to identify instance
     pub id: i64,
+    /// Task description of what needs to be done
     pub text: String,
 }
 

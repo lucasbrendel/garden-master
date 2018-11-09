@@ -21,7 +21,7 @@ use logging::logging_init;
 use plant::{Plant, PlantType};
 
 fn main() {
-    logging_init();
+    // logging_init();
     let _matches = App::new("Garden Master")
         .version("0.1.0")
         .author("Lucas Brendel")
@@ -31,7 +31,15 @@ fn main() {
     //     let tomato = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
     let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
     let plant = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
-    for pl in Plant::get_plants(&mgr.conn) {
+    let plants = Plant::get_plants(&mgr.conn);
+    let plants = match plants {
+        Ok(p) => p,
+        Err(error) => {
+            panic!("Data access errored: {:?}", error);
+        }
+    };
+
+    for pl in plants {
         info!("{:?}", pl);
     }
     //     mgr.save_plants(tomato);

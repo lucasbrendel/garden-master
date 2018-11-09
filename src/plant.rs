@@ -74,36 +74,32 @@ impl Plant {
         }
     }
 
-    pub fn get_plants(conn: &Connection) -> Vec<Plant> {
+    pub fn get_plants(conn: &Connection) -> Result<Vec<Plant>> {
         let mut plants: Vec<Plant> = Vec::new();
-        let mut stmt = conn
-            .prepare("SELECT id, name, days_to_maturity, zones, notes, plant_type FROM plants")
-            .unwrap();
-        info!("Get Plants by ID: {:?}", stmt);
-        let map_plants = stmt
-            .query_map(NO_PARAMS, |row| {
-                Plant {
-                    id: row.get(0),
-                    name: row.get(1),
-                    days_to_maturity: row.get(2),
-                    zones: row.get(3),
-                    notes: row.get(4),
-                    plant_type: row.get(5),
-                }
-                // Plant::new(row.get(1), row.get(2), PlantType::Annual)
-            }).unwrap();
+        let mut stmt = try!(conn
+            .prepare("SELECT id, name, days_to_maturity, zones, notes FROM plants"));
+        info!("Get Plants: {:?}", stmt);
+        let map_plants = try!(stmt
+            .query_map(NO_PARAMS, |row| Plant {
+                id: row.get(0),
+                name: row.get(1),
+                days_to_maturity: row.get(2),
+                zones: row.get(3),
+                notes: row.get(4),
+                plant_type: PlantType::Annual,
+            }));
         for plant in map_plants {
             info!("Accessing {:?}", plant);
             plants.push(plant.unwrap());
         }
-        plants
+        Ok(plants)
     }
 
     pub fn get_plant_by_id(conn: &Connection, id: i64) -> Result<Plant> {
         let mut stmt = try!(conn.prepare(
             "SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :id"
         ));
-        info!("Get Plant Statement {:?}", stmt);
+        info!("Get Plant by ID: {:?}", stmt);
         let plant = stmt
             .query_map(NO_PARAMS, |row| Plant {
                 id,

@@ -31,6 +31,13 @@ impl DataMgr {
                 FOREIGN KEY(plant_id) REFERENCES plants(id));",
                 NO_PARAMS,
             ).unwrap();
+        data.conn
+            .execute(
+                "CREATE TABLE IF NOT EXISTS tasks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                text TEXT NOT NULL);",
+                NO_PARAMS,
+            ).unwrap();
         data
     }
 }

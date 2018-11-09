@@ -42,8 +42,4 @@ fn main() {
     for pl in plants {
         info!("{:?}", pl);
     }
-    //     mgr.save_plants(tomato);
-    //     for pl in mgr.get_plants() {
-    //         info!("Found plant {:?}", pl);
-    //     }
 }

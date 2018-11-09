@@ -42,8 +42,8 @@ impl Crop {
 mod tests {
     use super::*;
 
-    use db::plant::PlantType;
     use db::datamgr;
+    use db::plant::PlantType;
 
     #[test]
     fn new_crop() {

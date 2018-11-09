@@ -151,10 +151,4 @@ mod tests {
         assert_eq!(beans.name, plants[1].name);
         assert_eq!(cucumber.name, plants[2].name);
     }
-
-    // #[test]
-    // fn default_plant_type() {
-    //     let plant = Plant::new(String::from("Potato"), 50, PlantType::Annual);
-    //     assert_eq!(PlantType::Annual, plant.plant_type);
-    // }
 }

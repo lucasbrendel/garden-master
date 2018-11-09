@@ -140,6 +140,18 @@ mod tests {
         assert_eq!(45, plant.unwrap().days_to_maturity);
     }
 
+    #[test]
+    fn get_plants() {
+        let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-get_plants.db"));
+        let tomato = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
+        let beans = Plant::new(&mgr.conn, String::from("Beans"), 52, PlantType::Perennial);
+        let cucumber = Plant::new(&mgr.conn, String::from("Cucumber"), 31, PlantType::Annual);
+        let plants = Plant::get_plants(&mgr.conn).unwrap();
+        assert_eq!(tomato.name, plants[0].name);
+        assert_eq!(beans.name, plants[1].name);
+        assert_eq!(cucumber.name, plants[2].name);
+    }
+
     // #[test]
     // fn default_plant_type() {
     //     let plant = Plant::new(String::from("Potato"), 50, PlantType::Annual);

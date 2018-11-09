@@ -95,20 +95,20 @@ impl Plant {
         Ok(plants)
     }
 
-    pub fn get_plant_by_id(conn: &Connection, id: i64) -> Result<Plant> {
+    pub fn get_plant_by_id(conn: &Connection, uid: i64) -> Result<Plant> {
         let mut stmt = try!(conn.prepare(
-            "SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :id"
+            "SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :uid"
         ));
         info!("Get Plant by ID: {:?}", stmt);
-        let plant = stmt
-            .query_map(NO_PARAMS, |row| Plant {
-                id,
+        let plant = try!(stmt
+            .query_map(&[&uid], |row| Plant {
+                id: uid,
                 name: row.get(0),
                 days_to_maturity: row.get(1),
                 zones: row.get(2),
                 notes: row.get(3),
                 plant_type: row.get(4),
-            }).unwrap();
+            }));
         Ok(plant.last().unwrap().unwrap())
     }
 }

@@ -136,7 +136,7 @@ mod tests {
     #[test]
     fn get_plant_by_id() {
         let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-get_plant_by_id.db"));
-        let t = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
+        let _t = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
         let plant = Plant::get_plant_by_id(&mgr.conn, 1);
         assert_eq!(45, plant.unwrap().days_to_maturity);
     }

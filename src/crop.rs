@@ -1,7 +1,7 @@
 use chrono::{Duration, NaiveDate};
 use plant::Plant;
-use rusqlite::{Connection, Result, NO_PARAMS};
 use rusqlite::types::*;
+use rusqlite::{Connection, Result, NO_PARAMS};
 
 use datamgr;
 
@@ -20,13 +20,11 @@ pub struct Crop {
 impl Crop {
     /// Create a new crop instance
     fn new(conn: &Connection, plant_id: i64, num_plants: u32, date_planted: NaiveDate) -> Self {
-        conn.execute("INSERT INTO crops (num_plants, date_planted, plant_id) VALUES (?1, ?2, ?3)",
-         &[
-             &num_plants,
-             &date_planted as &ToSql,
-             &plant_id
-         ],).unwrap();
-        
+        conn.execute(
+            "INSERT INTO crops (num_plants, date_planted, plant_id) VALUES (?1, ?2, ?3)",
+            &[&num_plants, &date_planted as &ToSql, &plant_id],
+        ).unwrap();
+
         Crop {
             id: conn.last_insert_rowid(),
             plant_id,
@@ -53,7 +51,7 @@ mod tests {
         let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-new_crop.db"));
         let plant = Plant::new(&mgr.conn, String::from("Bean"), 75, PlantType::Annual);
         let crop = Crop::new(&mgr.conn, plant.id, 5, NaiveDate::from_ymd(2018, 5, 6));
-        assert_eq!(5,crop.num_plants);
+        assert_eq!(5, crop.num_plants);
     }
     // #[test]
     // fn new_crop() {

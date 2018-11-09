@@ -3,10 +3,9 @@
 //! This item should contain the necessary data so that work can be done for the use to alert
 //! when work is needed to be performed.
 
-use rusqlite::types::{FromSql, FromSqlError, FromSqlResult, ToSql, ToSqlOutput, ValueRef};
+use rusqlite::types::{FromSql, FromSqlResult, ToSql, ToSqlOutput, ValueRef};
 use rusqlite::{Connection, Result, NO_PARAMS};
 use std::str::FromStr;
-use strum::AsStaticRef;
 
 /// Standard type to define all things to grow
 #[derive(Debug)]
@@ -45,7 +44,7 @@ impl FromSql for PlantType {
         match PlantType::from_str(value.as_str().unwrap()).unwrap() {
             PlantType::Annual => Ok(PlantType::Annual),
             PlantType::Perennial => Ok(PlantType::Perennial),
-            _ => Err(FromSqlError::InvalidType),
+            // _ => Err(FromSqlError::InvalidType),
         }
     }
 }
@@ -80,6 +79,7 @@ impl Plant {
         }
     }
 
+    /// Access all defined plants
     pub fn get_plants(conn: &Connection) -> Result<Vec<Plant>> {
         let mut plants: Vec<Plant> = Vec::new();
         let mut stmt = try!(
@@ -101,6 +101,7 @@ impl Plant {
         Ok(plants)
     }
 
+    /// Obtain a plant based on the database id provided
     pub fn get_plant_by_id(conn: &Connection, uid: i64) -> Result<Plant> {
         let mut stmt = try!(conn.prepare(
             "SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :uid"
@@ -135,7 +136,7 @@ mod tests {
     #[test]
     fn get_plant_by_id() {
         let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-get_plant_by_id.db"));
-        let t = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
+        let _t = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
         let plant = Plant::get_plant_by_id(&mgr.conn, 1);
         assert_eq!(45, plant.unwrap().days_to_maturity);
     }

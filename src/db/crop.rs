@@ -1,9 +1,7 @@
 use chrono::{Duration, NaiveDate};
-use plant::Plant;
+use db::plant::Plant;
 use rusqlite::types::*;
-use rusqlite::{Connection, Result, NO_PARAMS};
-
-use datamgr;
+use rusqlite::Connection;
 
 /// Tracking the growth and harvest of a specific plant
 pub struct Crop {
@@ -44,7 +42,8 @@ impl Crop {
 mod tests {
     use super::*;
 
-    use plant::PlantType;
+    use db::datamgr;
+    use db::plant::PlantType;
 
     #[test]
     fn new_crop() {

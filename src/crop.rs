@@ -35,8 +35,8 @@ impl Crop {
 
     /// Provides the ideal harvest date based on planting date and time to maturity
     fn planned_harvest_date(&self, conn: &Connection) -> NaiveDate {
-        let plant = Plant::get_plant_by_id(&conn, self.plant_id);
-        self.date_planted + Duration::days(plant.unwrap().days_to_maturity)
+        let plant = Plant::get_plant_by_id(&conn, self.plant_id).unwrap();
+        self.date_planted + Duration::days(plant.days_to_maturity)
     }
 }
 
@@ -52,7 +52,7 @@ mod tests {
         let plant = Plant::new(&mgr.conn, String::from("Bean"), 75, PlantType::Annual);
         let crop = Crop::new(&mgr.conn, plant.id, 5, NaiveDate::from_ymd(2018, 5, 6));
         assert_eq!(5, crop.num_plants);
-        assert_eq!(NaiveDate::from_ymd(2018, 6, 25), crop.date_planted);
+        assert_eq!(NaiveDate::from_ymd(2018, 5, 6), crop.date_planted);
         assert_eq!(plant.id, crop.plant_id);
     }
 

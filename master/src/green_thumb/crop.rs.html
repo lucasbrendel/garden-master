@@ -50,9 +50,30 @@
 <span id="50">50</span>
 <span id="51">51</span>
 <span id="52">52</span>
+<span id="53">53</span>
+<span id="54">54</span>
+<span id="55">55</span>
+<span id="56">56</span>
+<span id="57">57</span>
+<span id="58">58</span>
+<span id="59">59</span>
+<span id="60">60</span>
+<span id="61">61</span>
+<span id="62">62</span>
+<span id="63">63</span>
+<span id="64">64</span>
+<span id="65">65</span>
+<span id="66">66</span>
+<span id="67">67</span>
+<span id="68">68</span>
+<span id="69">69</span>
 </pre><pre class="rust ">
-<span class="kw">use</span> <span class="ident">chrono</span>::<span class="ident">NaiveDate</span>;
+<span class="kw">use</span> <span class="ident">chrono</span>::{<span class="ident">Duration</span>, <span class="ident">NaiveDate</span>};
 <span class="kw">use</span> <span class="ident">plant</span>::<span class="ident">Plant</span>;
+<span class="kw">use</span> <span class="ident">rusqlite</span>::<span class="ident">types</span>::<span class="kw-2">*</span>;
+<span class="kw">use</span> <span class="ident">rusqlite</span>::{<span class="ident">Connection</span>, <span class="prelude-ty">Result</span>, <span class="ident">NO_PARAMS</span>};
+
+<span class="kw">use</span> <span class="ident">datamgr</span>;
 
 <span class="doccomment">/// Tracking the growth and harvest of a specific plant</span>
 <span class="kw">pub</span> <span class="kw">struct</span> <span class="ident">Crop</span> {
@@ -60,23 +81,32 @@
     <span class="kw">pub</span> <span class="ident">num_plants</span>: <span class="ident">u32</span>,
     <span class="doccomment">/// The date that the plants were planted</span>
     <span class="kw">pub</span> <span class="ident">date_planted</span>: <span class="ident">NaiveDate</span>,
-    <span class="doccomment">/// The type of plant sown</span>
-    <span class="kw">pub</span> <span class="ident">plant</span>: <span class="ident">Plant</span>,
+    <span class="doccomment">/// The id of the plant sown</span>
+    <span class="kw">pub</span> <span class="ident">plant_id</span>: <span class="ident">i64</span>,
+    <span class="doccomment">/// Unique id for the crop</span>
+    <span class="kw">pub</span> <span class="ident">id</span>: <span class="ident">i64</span>,
 }
 
 <span class="kw">impl</span> <span class="ident">Crop</span> {
     <span class="doccomment">/// Create a new crop instance</span>
-    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">plant</span>: <span class="ident">Plant</span>, <span class="ident">num_plants</span>: <span class="ident">u32</span>, <span class="ident">date_planted</span>: <span class="ident">NaiveDate</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+    <span class="kw">fn</span> <span class="ident">new</span>(<span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>, <span class="ident">plant_id</span>: <span class="ident">i64</span>, <span class="ident">num_plants</span>: <span class="ident">u32</span>, <span class="ident">date_planted</span>: <span class="ident">NaiveDate</span>) <span class="op">-&gt;</span> <span class="self">Self</span> {
+        <span class="ident">conn</span>.<span class="ident">execute</span>(
+            <span class="string">&quot;INSERT INTO crops (num_plants, date_planted, plant_id) VALUES (?1, ?2, ?3)&quot;</span>,
+            <span class="kw-2">&amp;</span>[<span class="kw-2">&amp;</span><span class="ident">num_plants</span>, <span class="kw-2">&amp;</span><span class="ident">date_planted</span> <span class="kw">as</span> <span class="kw-2">&amp;</span><span class="ident">ToSql</span>, <span class="kw-2">&amp;</span><span class="ident">plant_id</span>],
+        ).<span class="ident">unwrap</span>();
+
         <span class="ident">Crop</span> {
-            <span class="ident">plant</span>,
+            <span class="ident">id</span>: <span class="ident">conn</span>.<span class="ident">last_insert_rowid</span>(),
+            <span class="ident">plant_id</span>,
             <span class="ident">num_plants</span>,
             <span class="ident">date_planted</span>,
         }
     }
 
     <span class="doccomment">/// Provides the ideal harvest date based on planting date and time to maturity</span>
-    <span class="kw">fn</span> <span class="ident">planned_harvest_date</span>(<span class="kw-2">&amp;</span><span class="self">self</span>) <span class="op">-&gt;</span> <span class="ident">NaiveDate</span> {
-        <span class="self">self</span>.<span class="ident">date_planted</span> <span class="op">+</span> <span class="self">self</span>.<span class="ident">plant</span>.<span class="ident">days_to_maturity</span>
+    <span class="kw">fn</span> <span class="ident">planned_harvest_date</span>(<span class="kw-2">&amp;</span><span class="self">self</span>, <span class="ident">conn</span>: <span class="kw-2">&amp;</span><span class="ident">Connection</span>) <span class="op">-&gt;</span> <span class="ident">NaiveDate</span> {
+        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">get_plant_by_id</span>(<span class="kw-2">&amp;</span><span class="ident">conn</span>, <span class="self">self</span>.<span class="ident">plant_id</span>).<span class="ident">unwrap</span>();
+        <span class="self">self</span>.<span class="ident">date_planted</span> <span class="op">+</span> <span class="ident">Duration</span>::<span class="ident">days</span>(<span class="ident">plant</span>.<span class="ident">days_to_maturity</span>)
     }
 }
 
@@ -88,18 +118,22 @@
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">new_crop</span>() {
-        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Tomato&quot;</span>), <span class="number">50</span>, <span class="ident">PlantType</span>::<span class="ident">Annual</span>);
-        <span class="kw">let</span> <span class="ident">crop</span> <span class="op">=</span> <span class="ident">Crop</span>::<span class="ident">new</span>(<span class="ident">plant</span>, <span class="number">5</span>, <span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="number">2018</span>, <span class="number">5</span>, <span class="number">6</span>));
+        <span class="kw">let</span> <span class="ident">mgr</span> <span class="op">=</span> <span class="ident">datamgr</span>::<span class="ident">DataMgr</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;./data/green-thumb-test-new_crop.db&quot;</span>));
+        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">mgr</span>.<span class="ident">conn</span>, <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Bean&quot;</span>), <span class="number">75</span>, <span class="ident">PlantType</span>::<span class="ident">Annual</span>);
+        <span class="kw">let</span> <span class="ident">crop</span> <span class="op">=</span> <span class="ident">Crop</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">mgr</span>.<span class="ident">conn</span>, <span class="ident">plant</span>.<span class="ident">id</span>, <span class="number">5</span>, <span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="number">2018</span>, <span class="number">5</span>, <span class="number">6</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="number">5</span>, <span class="ident">crop</span>.<span class="ident">num_plants</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="number">2018</span>, <span class="number">5</span>, <span class="number">6</span>), <span class="ident">crop</span>.<span class="ident">date_planted</span>);
+        <span class="macro">assert_eq</span><span class="macro">!</span>(<span class="ident">plant</span>.<span class="ident">id</span>, <span class="ident">crop</span>.<span class="ident">plant_id</span>);
     }
 
     <span class="attribute">#[<span class="ident">test</span>]</span>
     <span class="kw">fn</span> <span class="ident">harvest_date</span>() {
-        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Tomato&quot;</span>), <span class="number">50</span>, <span class="ident">PlantType</span>::<span class="ident">Annual</span>);
-        <span class="kw">let</span> <span class="ident">crop</span> <span class="op">=</span> <span class="ident">Crop</span>::<span class="ident">new</span>(<span class="ident">plant</span>, <span class="number">5</span>, <span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="number">2018</span>, <span class="number">5</span>, <span class="number">6</span>));
+        <span class="kw">let</span> <span class="ident">mgr</span> <span class="op">=</span> <span class="ident">datamgr</span>::<span class="ident">DataMgr</span>::<span class="ident">new</span>(<span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;./data/green-thumb-test-harvest_date.db&quot;</span>));
+        <span class="kw">let</span> <span class="ident">plant</span> <span class="op">=</span> <span class="ident">Plant</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">mgr</span>.<span class="ident">conn</span>, <span class="ident">String</span>::<span class="ident">from</span>(<span class="string">&quot;Bean&quot;</span>), <span class="number">75</span>, <span class="ident">PlantType</span>::<span class="ident">Annual</span>);
+        <span class="kw">let</span> <span class="ident">crop</span> <span class="op">=</span> <span class="ident">Crop</span>::<span class="ident">new</span>(<span class="kw-2">&amp;</span><span class="ident">mgr</span>.<span class="ident">conn</span>, <span class="ident">plant</span>.<span class="ident">id</span>, <span class="number">5</span>, <span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="number">2018</span>, <span class="number">5</span>, <span class="number">6</span>));
         <span class="macro">assert_eq</span><span class="macro">!</span>(
-            <span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="number">2018</span>, <span class="number">6</span>, <span class="number">25</span>),
-            <span class="ident">crop</span>.<span class="ident">planned_harvest_date</span>()
+            <span class="ident">NaiveDate</span>::<span class="ident">from_ymd</span>(<span class="number">2018</span>, <span class="number">7</span>, <span class="number">20</span>),
+            <span class="ident">crop</span>.<span class="ident">planned_harvest_date</span>(<span class="kw-2">&amp;</span><span class="ident">mgr</span>.<span class="ident">conn</span>)
         );
     }
 }

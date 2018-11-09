@@ -29,16 +29,4 @@ fn main() {
         .get_matches();
 
     let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
-    let plant = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
-    let plants = Plant::get_plants(&mgr.conn);
-    let plants = match plants {
-        Ok(p) => p,
-        Err(error) => {
-            panic!("Data access errored: {:?}", error);
-        }
-    };
-
-    for pl in plants {
-        info!("{:?}", pl);
-    }
 }

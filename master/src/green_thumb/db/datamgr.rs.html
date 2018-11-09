@@ -34,6 +34,13 @@
 <span id="34">34</span>
 <span id="35">35</span>
 <span id="36">36</span>
+<span id="37">37</span>
+<span id="38">38</span>
+<span id="39">39</span>
+<span id="40">40</span>
+<span id="41">41</span>
+<span id="42">42</span>
+<span id="43">43</span>
 </pre><pre class="rust ">
 <span class="kw">use</span> <span class="ident">rusqlite</span>::{<span class="ident">Connection</span>, <span class="ident">NO_PARAMS</span>};
 
@@ -66,6 +73,13 @@
                 date_planted TEXT NOT NULL,
                 plant_id INTEGER NOT NULL,
                 FOREIGN KEY(plant_id) REFERENCES plants(id));&quot;</span>,
+                <span class="ident">NO_PARAMS</span>,
+            ).<span class="ident">unwrap</span>();
+        <span class="ident">data</span>.<span class="ident">conn</span>
+            .<span class="ident">execute</span>(
+                <span class="string">&quot;CREATE TABLE IF NOT EXISTS tasks (
+                id INTEGER PRIMARY KEY AUTOINCREMENT,
+                text TEXT NOT NULL);&quot;</span>,
                 <span class="ident">NO_PARAMS</span>,
             ).<span class="ident">unwrap</span>();
         <span class="ident">data</span>

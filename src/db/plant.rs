@@ -3,7 +3,7 @@
 //! This item should contain the necessary data so that work can be done for the use to alert
 //! when work is needed to be performed.
 
-use rusqlite::types::{FromSql, FromSqlError, FromSqlResult, ToSql, ToSqlOutput, ValueRef};
+use rusqlite::types::{FromSql, FromSqlResult, ToSql, ToSqlOutput, ValueRef};
 use rusqlite::{Connection, Result, NO_PARAMS};
 use std::str::FromStr;
 
@@ -44,7 +44,7 @@ impl FromSql for PlantType {
         match PlantType::from_str(value.as_str().unwrap()).unwrap() {
             PlantType::Annual => Ok(PlantType::Annual),
             PlantType::Perennial => Ok(PlantType::Perennial),
-            _ => Err(FromSqlError::InvalidType),
+            // _ => Err(FromSqlError::InvalidType),
         }
     }
 }

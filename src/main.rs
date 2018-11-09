@@ -28,7 +28,6 @@ fn main() {
         .about("Help keep track of all the things that need to happen in a garden or orchard")
         .get_matches();
 
-    //     let tomato = Plant::new(String::from("Tomato"), 50, PlantType::Annual);
     let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
     let plant = Plant::new(&mgr.conn, String::from("Tomato"), 45, PlantType::Annual);
     let plants = Plant::get_plants(&mgr.conn);

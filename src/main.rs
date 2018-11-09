@@ -12,6 +12,8 @@ extern crate log;
 extern crate simplelog;
 
 mod logging;
+
+#[allow(dead_code)]
 mod db;
 
 use clap::App;
@@ -26,5 +28,5 @@ fn main() {
         .about("Help keep track of all the things that need to happen in a garden or orchard")
         .get_matches();
 
-    let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
+    let _mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
 }

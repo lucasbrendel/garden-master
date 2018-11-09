@@ -1,9 +1,7 @@
 use chrono::{Duration, NaiveDate};
 use db::plant::Plant;
 use rusqlite::types::*;
-use rusqlite::{Connection, Result, NO_PARAMS};
-
-use datamgr;
+use rusqlite::Connection;
 
 /// Tracking the growth and harvest of a specific plant
 pub struct Crop {

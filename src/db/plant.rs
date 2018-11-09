@@ -6,7 +6,6 @@
 use rusqlite::types::{FromSql, FromSqlError, FromSqlResult, ToSql, ToSqlOutput, ValueRef};
 use rusqlite::{Connection, Result, NO_PARAMS};
 use std::str::FromStr;
-use strum::AsStaticRef;
 
 /// Standard type to define all things to grow
 #[derive(Debug)]

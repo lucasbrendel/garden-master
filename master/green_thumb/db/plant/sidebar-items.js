@@ -1,0 +1,1 @@
+initSidebarItems({"constant":[["_IMPL_DESERIALIZE_FOR_PlantType",""],["_IMPL_SERIALIZE_FOR_PlantType",""]],"enum":[["PlantType","Seasonal variety types of plants"]],"struct":[["Plant","Standard type to define all things to grow"]]});

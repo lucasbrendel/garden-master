@@ -1,5 +1,5 @@
 use chrono::{Duration, NaiveDate};
-use plant::Plant;
+use db::plant::Plant;
 use rusqlite::types::*;
 use rusqlite::{Connection, Result, NO_PARAMS};
 

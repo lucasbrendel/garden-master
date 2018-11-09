@@ -11,14 +11,12 @@ extern crate strum_macros;
 extern crate log;
 extern crate simplelog;
 
-mod crop;
-mod datamgr;
 mod logging;
-mod plant;
+mod db;
 
 use clap::App;
 use logging::logging_init;
-use plant::{Plant, PlantType};
+use db::datamgr;
 
 fn main() {
     logging_init();

@@ -80,6 +80,7 @@ impl Plant {
         }
     }
 
+    /// Access all defined plants
     pub fn get_plants(conn: &Connection) -> Result<Vec<Plant>> {
         let mut plants: Vec<Plant> = Vec::new();
         let mut stmt = try!(
@@ -101,6 +102,7 @@ impl Plant {
         Ok(plants)
     }
 
+    /// Obtain a plant based on the database id provided
     pub fn get_plant_by_id(conn: &Connection, uid: i64) -> Result<Plant> {
         let mut stmt = try!(conn.prepare(
             "SELECT name, days_to_maturity, zones, notes, plant_type FROM plants WHERE id = :uid"

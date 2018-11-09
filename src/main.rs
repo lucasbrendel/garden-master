@@ -1,15 +1,32 @@
 extern crate chrono;
 extern crate clap;
-
-use clap::App;
+extern crate rusqlite;
+#[macro_use]
+extern crate serde_derive;
+extern crate serde_rusqlite;
+extern crate strum;
+#[macro_use]
+extern crate strum_macros;
+#[macro_use]
+extern crate log;
+extern crate simplelog;
 
 mod crop;
+mod datamgr;
+mod logging;
 mod plant;
 
+use clap::App;
+use logging::logging_init;
+use plant::{Plant, PlantType};
+
 fn main() {
+    logging_init();
     let _matches = App::new("Garden Master")
         .version("0.1.0")
         .author("Lucas Brendel")
         .about("Help keep track of all the things that need to happen in a garden or orchard")
         .get_matches();
+
+    let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
 }

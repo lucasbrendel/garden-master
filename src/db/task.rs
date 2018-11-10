@@ -10,6 +10,15 @@ pub struct Task {
 }
 
 impl Task {
+    /// Create a new instance of a Task
+    /// 
+    /// # Example
+    /// 
+    /// ```
+    /// let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-new_task.db"));
+    /// let task = Task::new(&mgr.conn, String::from("Water garden"));
+    /// assert_eq!(String::from("Water garden"), task.text);
+    /// ```
     pub fn new(conn: &Connection, text: String) -> Self {
         conn.execute("INSERT INTO tasks (text) VALUES (?1)", &[&text])
             .unwrap();
@@ -46,5 +55,15 @@ mod tests {
         let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-new_task.db"));
         let task = Task::new(&mgr.conn, String::from("Water garden"));
         assert_eq!(String::from("Water garden"), task.text);
+    }
+
+    #[test]
+    fn get_tasks() {
+        let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-new_task.db"));
+        let task1 = Task::new(&mgr.conn, String::from("Water garden"));
+        let task2 = Task::new(&mgr.conn, String::from("Weed garden"));
+        let tasks = Task::get_tasks(&mgr.conn).unwrap();
+        assert_eq!(task1.text, tasks[0].text);
+        assert_eq!(task2.text, tasks[1].text);
     }
 }

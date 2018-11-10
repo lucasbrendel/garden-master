@@ -11,9 +11,9 @@ pub struct Task {
 
 impl Task {
     /// Create a new instance of a Task
-    /// 
+    ///
     /// # Example
-    /// 
+    ///
     /// ```
     /// let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-new_task.db"));
     /// let task = Task::new(&mgr.conn, String::from("Water garden"));

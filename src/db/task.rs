@@ -48,18 +48,18 @@ impl Task {
 #[cfg(test)]
 mod tests {
     use super::*;
-    use datamgr;
+    use db::DataMgr;
 
     #[test]
     fn new_task() {
-        let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-new_task.db"));
+        let mgr = DataMgr::new(String::from("./data/green-thumb-test-new_task.db"));
         let task = Task::new(&mgr.conn, String::from("Water garden"));
         assert_eq!(String::from("Water garden"), task.text);
     }
 
     #[test]
     fn get_tasks() {
-        let mgr = datamgr::DataMgr::new(String::from("./data/green-thumb-test-new_task.db"));
+        let mgr = DataMgr::new(String::from("./data/green-thumb-test-new_task.db"));
         let task1 = Task::new(&mgr.conn, String::from("Water garden"));
         let task2 = Task::new(&mgr.conn, String::from("Weed garden"));
         let tasks = Task::get_tasks(&mgr.conn).unwrap();

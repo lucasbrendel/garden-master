@@ -56,8 +56,8 @@ impl Task {
               (":id", &self.id)]).unwrap();
     }
 
-    /// Get the date that the task was completed. 
-    /// This cannot be trusted if set_completed returns false. 
+    /// Get the date that the task was completed.
+    /// This cannot be trusted if set_completed returns false.
     pub fn get_completed_date(&self) -> DateTime<Local> {
         self.completed_date
     }

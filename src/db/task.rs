@@ -93,6 +93,19 @@ impl Task {
         }
         Ok(tasks)
     }
+
+    pub fn get_task_by_id(conn: &Connection, id: i64) -> Result<Task> {
+        let mut stmt = try!(
+            conn.prepare("SELECT text, is_completed, completed_date FROM tasks WHERE id = :id")
+        );
+        let task = try!(stmt.query_map(&[&id], |row| Task {
+            id,
+            text: row.get(0),
+            is_completed: row.get(1),
+            completed_date: row.get(2)
+        }));
+        Ok(task.last().unwrap().unwrap())
+    }
 }
 
 #[cfg(test)]
@@ -143,5 +156,13 @@ mod tests {
         assert_eq!(String::from("Test completion"), task.get_text());
         task.set_text(&mgr.conn, String::from("Updated Text."));
         assert_eq!(String::from("Updated Text."), task.get_text());
+    }
+
+    #[test]
+    fn get_task_by_id() {
+        let mgr = DataMgr::new(String::from("./data/green-thumb-test-get_task_by_id.db"));
+        let task = Task::new(&mgr.conn, String::from("Get by Id"));
+        let task2 = Task::get_task_by_id(&mgr.conn, 1);
+        assert_eq!(task.id, task2.unwrap().id);
     }
 }

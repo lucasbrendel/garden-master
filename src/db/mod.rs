@@ -39,7 +39,9 @@ impl DataMgr {
             .execute(
                 "CREATE TABLE IF NOT EXISTS tasks (
                 id INTEGER PRIMARY KEY AUTOINCREMENT,
-                text TEXT NOT NULL);",
+                text TEXT NOT NULL,
+                is_completed BOOL NOT NULL,
+                completed_date TEXT);",
                 NO_PARAMS,
             ).unwrap();
         data

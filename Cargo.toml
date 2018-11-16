@@ -8,13 +8,13 @@ version = "0.1.0"
 chrono = "0.4.6"
 clap = "2.32.0"
 log = "0.4.6"
-serde = "1.0.80"
-serde_derive = "1.0.80"
+serde = "1.0.*"
+serde_derive = "1.0.*"
 serde_rusqlite = "0.15.0"
 simplelog = "0.5.3"
 strum = "0.11.0"
 strum_macros = "0.11.0"
-azul = { git = "https://github.com/maps4print/azul" }
+azul = { git = "https://github.com/maps4print/azul", rev = "57b1bdfabe643261d884f8247a3aa960969e6398" }
 
 [dependencies.rusqlite]
 version = "0.15.0"

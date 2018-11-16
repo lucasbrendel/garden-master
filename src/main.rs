@@ -17,7 +17,7 @@ mod logging;
 mod db;
 
 use clap::App;
-use db::datamgr;
+use db::DataMgr;
 use logging::logging_init;
 
 fn main() {
@@ -28,5 +28,5 @@ fn main() {
         .about("Help keep track of all the things that need to happen in a garden or orchard")
         .get_matches();
 
-    let _mgr = datamgr::DataMgr::new(String::from("./data/green-thumb.db"));
+    let _mgr = DataMgr::new(String::from("./data/green-thumb.db"));
 }

@@ -14,6 +14,7 @@ serde_rusqlite = "0.15.0"
 simplelog = "0.5.3"
 strum = "0.11.0"
 strum_macros = "0.11.0"
+azul = { git = "https://github.com/maps4print/azul" }
 
 [dependencies.rusqlite]
 version = "0.15.0"

@@ -162,7 +162,7 @@ mod tests {
     fn get_task_by_id() {
         let mgr = DataMgr::new(String::from("./data/green-thumb-test-get_task_by_id.db"));
         let task = Task::new(&mgr.conn, String::from("Get by Id"));
-        let task2 = Task::get_task_by_id(&mgr.conn, 1);
-        assert_eq!(task.id, task2.unwrap().id);
+        let task2 = Task::get_task_by_id(&mgr.conn, task.id);
+        assert_eq!(task.get_text(), task2.unwrap().get_text());
     }
 }

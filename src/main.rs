@@ -1,3 +1,5 @@
+#[macro_use] extern crate yew;
+use yew::prelude::*;
 extern crate chrono;
 extern crate clap;
 extern crate rusqlite;
@@ -20,13 +22,48 @@ use clap::App;
 use db::DataMgr;
 use logging::logging_init;
 
+struct Model { }
+
+enum Msg {
+    DoIt,
+}
+
+impl Component for Model {
+    // Some details omitted. Explore the examples to see more.
+
+    type Message = Msg;
+    type Properties = ();
+
+    fn create(_: Self::Properties, _: ComponentLink<Self>) -> Self {
+        Model { }
+    }
+
+    fn update(&mut self, msg: Self::Message) -> ShouldRender {
+        match msg {
+            Msg::DoIt => {
+                // Update your model on events
+                true
+            }
+        }
+    }
+}
+
+impl Renderable<Model> for Model {
+    fn view(&self) -> Html<Self> {
+        html! {
+            // Render your model here
+            <button onclick=|_| Msg::DoIt,>{ "Click me!" }</button>
+        }
+    }
+}
+
+
 fn main() {
     logging_init();
-    let _matches = App::new("Garden Master")
-        .version("0.1.0")
-        .author("Lucas Brendel")
-        .about("Help keep track of all the things that need to happen in a garden or orchard")
-        .get_matches();
-
-    let _mgr = DataMgr::new(String::from("./data/green-thumb.db"));
+    yew::initialize();
+    App::<Model>::new().mount_to_body();
+    yew::run_loop();
 }
+
+
+

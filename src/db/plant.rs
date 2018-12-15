@@ -67,7 +67,8 @@ impl Plant {
                 &Vec::new(),
                 &String::from(""),
             ],
-        ).unwrap();
+        )
+        .unwrap();
 
         Plant {
             id: conn.last_insert_rowid(),

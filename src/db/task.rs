@@ -29,7 +29,8 @@ impl Task {
         conn.execute(
             "INSERT INTO tasks (text, is_completed, completed_date) VALUES (?1, ?2, ?3)",
             &[&text, &false as &ToSql, &Local::now()],
-        ).unwrap();
+        )
+        .unwrap();
 
         Task {
             id: conn.last_insert_rowid(),
@@ -73,7 +74,8 @@ impl Task {
         conn.execute_named(
             "UPDATE tasks SET text = :text WHERE id = :id",
             &[(":text", &self.text), (":id", &self.id)],
-        ).unwrap();
+        )
+        .unwrap();
     }
 
     /// Access all tasks

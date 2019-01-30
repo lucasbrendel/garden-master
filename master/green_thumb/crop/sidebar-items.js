@@ -1,1 +1,0 @@
-initSidebarItems({"struct":[["Crop","Tracking the growth and harvest of a specific plant"]]});

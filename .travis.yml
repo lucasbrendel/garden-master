@@ -32,4 +32,4 @@ script:
   - cargo coverage --verbose
   - cargo test --verbose --all
   - cargo doc --verbose --no-deps --document-private-items
-  - cargo doc-upload
+#  - cargo doc-upload

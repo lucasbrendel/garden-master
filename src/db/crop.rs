@@ -20,7 +20,7 @@ impl Crop {
     fn new(conn: &Connection, plant_id: i64, num_plants: u32, date_planted: NaiveDate) -> Self {
         conn.execute(
             "INSERT INTO crops (num_plants, date_planted, plant_id) VALUES (?1, ?2, ?3)",
-            &[&num_plants, &date_planted as &ToSql, &plant_id],
+            &[&num_plants, &date_planted as &dyn ToSql, &plant_id],
         )
         .unwrap();
 

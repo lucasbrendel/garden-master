@@ -61,7 +61,7 @@ impl Plant {
             "INSERT INTO plants (name, days_to_maturity, plant_type, zones, notes)
             VALUES (?1, ?2, ?3, ?4, ?5)",
             &[
-                &name as &ToSql,
+                &name as &dyn ToSql,
                 &days_to_maturity,
                 &plant_type,
                 &Vec::new(),

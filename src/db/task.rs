@@ -28,7 +28,7 @@ impl Task {
     pub fn new(conn: &Connection, text: String) -> Self {
         conn.execute(
             "INSERT INTO tasks (text, is_completed, completed_date) VALUES (?1, ?2, ?3)",
-            &[&text, &false as &ToSql, &Local::now()],
+            &[&text, &false as &dyn ToSql, &Local::now()],
         )
         .unwrap();
 
@@ -51,9 +51,9 @@ impl Task {
         self.is_completed = true;
         self.completed_date = Local::now();
 
-        conn.execute_named("UPDATE tasks SET is_completed = :iscompleted, completed_date = :completeddate WHERE id = :id", 
-            &[(":iscompleted", &true as &ToSql), 
-              (":completeddate", &Local::now()), 
+        conn.execute_named("UPDATE tasks SET is_completed = :iscompleted, completed_date = :completeddate WHERE id = :id",
+            &[(":iscompleted", &true as &dyn ToSql),
+              (":completeddate", &Local::now()),
               (":id", &self.id)]).unwrap();
     }
 

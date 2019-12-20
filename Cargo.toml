@@ -17,4 +17,4 @@ strum_macros = "0.17.1"
 
 [dependencies.rusqlite]
 version = "0.21.0"
-features = ["chrono"]
+features = ["chrono", "bundled"]

@@ -13,7 +13,7 @@ serde_derive = "1.0.104"
 serde_rusqlite = "0.16.0"
 simplelog = "0.5.3"
 strum = "0.17.1"
-strum_macros = "0.16.0"
+strum_macros = "0.17.1"
 
 [dependencies.rusqlite]
 version = "0.15.0"

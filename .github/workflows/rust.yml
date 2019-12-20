@@ -14,6 +14,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master
+      - name: Setup System
+        run:
+          sug apt-get install libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev cmake
       - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:

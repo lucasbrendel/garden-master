@@ -16,7 +16,7 @@ jobs:
       - uses: actions/checkout@master
       - name: Setup System
         run:
-          sudo apt-get install libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev cmake
+          sudo apt-get install libcurl4-openssl-dev libelf-dev libdw-dev binutils-dev cmake libsqlite3-sys
       - name: Install toolchain
         uses: actions-rs/toolchain@v1
         with:
